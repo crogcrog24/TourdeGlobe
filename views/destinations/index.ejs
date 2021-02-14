@@ -1,0 +1,62 @@
+<% layout('/layouts/boilerplate') %>
+<h6 style="color: darkgray;">(you may click on map to view destination)</h6>
+
+<div id="map" style="width: 100%; height: 500px"></div>
+
+  <h2> All Destinations </h2>
+  <form class="d-flex">
+    <input class="form-control me-2" id='search' type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+  
+
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+
+
+<div id='searchfor'>
+  <%for(let name of place){%>
+    <div class='card mb-4' >
+      <div class="row">
+        <div class="col-md-4" >
+          <%if(name.images.length) {%>
+            <img class="img-fluid" alt="" src="<%=name.images[0].url%>">
+            <% }else {%>
+            <img class="img-fluid" alt=""
+                src="https://res.cloudinary.com/ducqvbmtm/image/upload/v1612987195/TourDeGlobe/bvruejlbcj2krijodoiw.jpg">
+            <% } %>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" >
+              <%=name.title %>
+            </h5>
+            <p class="card-text">
+              <% if(name.description.length>500) {%>  
+              <%=name.description.substring(0,499) %>.................
+            <% } else{%> 
+              <%=name.description %> 
+              <% } %> 
+            
+            </p>
+            <p class="card-text">
+              <small class="text-muted">
+                <%=name.location %>
+              </small>
+            </p>
+            <li>Submitted by <%= name.author.username%>
+            </li>
+            <a class="btn btn-primary" href="/destination/<%=name._id%> ">view <%=name.title  %> </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }%>
+  </div>
+    <script>
+      const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+      const place = { features: <%- JSON.stringify(place) %>}
+  </script>
+  
+  <script src="/javascripts/clusterMap.js"></script>
+ 
